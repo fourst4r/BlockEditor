@@ -54,11 +54,14 @@ namespace BlockEditor.Models
             var blockCountX = width / _game.Map.BlockPixelSize;
             var blockCountY = height / _game.Map.BlockPixelSize;
 
+            var maxBlockX = minBlockX + blockCountX;
+            var maxBlockY = minBlockY + blockCountY;
+
             var blocks = _game.Map.Blocks;
 
-            for (int y = minBlockY; y < minBlockY + blockCountY; y++)
+            for (int y = minBlockY; y < maxBlockY; y++)
             {
-                for (int x = minBlockX; x < minBlockX + blockCountX; x++)
+                for (int x = minBlockX; x < maxBlockX; x++)
                 {
                     var block = blocks.GetBlock(x, y, false);
 
