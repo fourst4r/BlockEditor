@@ -3,11 +3,8 @@ using BlockEditor.Utils;
 using Converters;
 using Converters.DataStructures.DTO;
 using LevelModel.Models;
-
 using SkiaSharp;
-
 using System;
-using System.Drawing;
 
 using static BlockEditor.Models.BlockImages;
 
@@ -19,6 +16,9 @@ namespace BlockEditor.Models
         public Level Level { get; }
 
         public Blocks Blocks { get; }
+        public GameArt Art1 { get; }
+        public GameArt Art2 { get; }
+        public GameArt Art3 { get; }
 
         public readonly int BlocksOutsideBoundries;
 
@@ -29,7 +29,7 @@ namespace BlockEditor.Models
                 try
                 {
                     if (Level.BackgroundColor != null)
-                        return SKColor.Parse("FF"+Level.BackgroundColor.PadLeft(6, '0'));// ColorTranslator.FromHtml("#" + Level.BackgroundColor);
+                        return ColorUtil.GetSKColorFromRGBHex(Level.BackgroundColor);
                     else
                         return SKColors.Black;
                 }
@@ -55,19 +55,23 @@ namespace BlockEditor.Models
             }
         }
 
-
-        public Map()
-        {
-            Level = GetDefaultLevel();
-            Level.Title = string.Empty;
-            Blocks = BlocksUtil.ToBlocks(Level.Blocks, out BlocksOutsideBoundries);
-            BlockSize = DEFAULT_BLOCK_SIZE;
-        }
-
-        public Map(Level level)
+        public Map(Level level = null)
         {
             Level = level ?? GetDefaultLevel();
             Blocks = BlocksUtil.ToBlocks(Level.Blocks, out BlocksOutsideBoundries);
+            BlockSize = DEFAULT_BLOCK_SIZE;
+            Art1 = new GameArt("Art 1");
+            Art2 = new GameArt("Art 2");
+            Art3 = new GameArt("Art 3");
+
+            LoadArt();
+        }
+
+        public void LoadArt()
+        {
+            Art1.LoadArt(Level.DrawArt1, Level.TextArt1);
+            Art2.LoadArt(Level.DrawArt2, Level.TextArt2);
+            Art3.LoadArt(Level.DrawArt3, Level.TextArt3);
         }
 
 
@@ -93,7 +97,7 @@ namespace BlockEditor.Models
 
         private Level GetDefaultLevel()
         {
-            var data = "version=1&credits=&cowboyChance=0&title=Default&time=1658836801&note=&min_level=0&song=&gravity=1.0&max_time=0&has_pass=0&live=1"
+            var data = "version=1&credits=&cowboyChance=0&title=&time=1658836801&note=&min_level=0&song=&gravity=1.0&max_time=0&has_pass=0&live=1"
                      + "&items=1&gameMode=race&badHats=&data=m4`0`444;335;111,1;0;112,1;0;113,1;0;114```````-1````4fde8f5661b3bc371330feb1b59eeb33";
 
             var levelInfo = Parsers.PR2Parser.Level(data);

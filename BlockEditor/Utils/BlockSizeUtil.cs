@@ -8,7 +8,7 @@ namespace BlockEditor.Utils
     public static class BlockSizeUtil
     {
 
-        public const int DEFAULT_BLOCK_SIZE = 40;
+        public const int DEFAULT_BLOCK_SIZE = 30;
 
         public static IEnumerable<BlockSize> GetAll()
         {
@@ -16,38 +16,51 @@ namespace BlockEditor.Utils
                 yield return (BlockSize)e;
         }
 
-        public static int GetPixelSize(this BlockSize size)
+        public static double GetScale(this BlockSize size)
         {
             switch (size)
             {
-                case BlockSize.Zoom5: return (int)(DEFAULT_BLOCK_SIZE * 0.05);
+                case BlockSize.Zoom5:  return 0.05;
 
-                case BlockSize.Zoom10: return (int)(DEFAULT_BLOCK_SIZE * 0.10);
+                case BlockSize.Zoom10: return 0.1;
 
-                case BlockSize.Zoom25: return (int)(DEFAULT_BLOCK_SIZE * 0.25);
+                case BlockSize.Zoom20: return 0.2;
 
-                case BlockSize.Zoom50: return (int)(DEFAULT_BLOCK_SIZE * 0.5);
+                case BlockSize.Zoom40: return 0.4;
 
-                case BlockSize.Zoom75: return (int)(DEFAULT_BLOCK_SIZE * 0.75);
+                case BlockSize.Zoom60: return 0.6;
 
-                case BlockSize.Zoom90: return (int)(DEFAULT_BLOCK_SIZE * 0.90);
+                case BlockSize.Zoom80: return 0.8;
 
-                case BlockSize.Zoom100: return (int)(DEFAULT_BLOCK_SIZE * 1.00);
+                case BlockSize.Zoom100: return 1.0;
                 
-                case BlockSize.Zoom110: return (int)(DEFAULT_BLOCK_SIZE * 1.10);
+                case BlockSize.Zoom120: return 1.2;
 
-                case BlockSize.Zoom125: return (int)(DEFAULT_BLOCK_SIZE * 1.25);
+                case BlockSize.Zoom140: return 1.4;
 
-                case BlockSize.Zoom150: return (int)(DEFAULT_BLOCK_SIZE * 1.50);
+                case BlockSize.Zoom160: return 1.6;
 
-                case BlockSize.Zoom175: return (int)(DEFAULT_BLOCK_SIZE * 1.75);
+                case BlockSize.Zoom180: return 1.8;
 
-                case BlockSize.Zoom200: return (int)(DEFAULT_BLOCK_SIZE * 2.00);
+                case BlockSize.Zoom200: return 2.0;
 
-                case BlockSize.Zoom250: return (int)(DEFAULT_BLOCK_SIZE * 2.50);
+                case BlockSize.Zoom220: return 2.2;
 
-                default: return DEFAULT_BLOCK_SIZE;
+                case BlockSize.Zoom240: return 2.4;
+
+                case BlockSize.Zoom260: return 2.6;
+
+                case BlockSize.Zoom280: return 2.8;
+
+                case BlockSize.Zoom300: return 3.0;
+
+                default: return 1.0;
             }
+        }
+
+        public static int GetPixelSize(this BlockSize size)
+        {
+            return (int)(DEFAULT_BLOCK_SIZE * GetScale(size));
         }
 
     }
